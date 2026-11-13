@@ -315,33 +315,6 @@ namespace CrudTesteDev
         private void btnPesquisar_Click(object sender, EventArgs e)
         {
 
-            try
-            {
-                string nome = tbPesquisar.Text.Trim();
-
-                PessoaDAL dal = new PessoaDAL();
-
-                if (string.IsNullOrWhiteSpace(nome))
-                {
-                    dgvPessoas.DataSource = dal.ListarTodos();
-                }
-                else
-                {
-                    dgvPessoas.DataSource = dal.PesquisarPorNome(nome);
-                }
-
-                dgvPessoas.ClearSelection();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Erro ao pesquisar cadastro:\n" + ex.Message,
-                    "Erro",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
-            }
-
         }
     }
 }
