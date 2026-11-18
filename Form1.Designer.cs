@@ -45,6 +45,7 @@
             this.tbPesquisar = new System.Windows.Forms.TextBox();
             this.btnPesquisar = new System.Windows.Forms.Button();
             this.dgvPessoas = new System.Windows.Forms.DataGridView();
+            this.btnExportar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPessoas)).BeginInit();
             this.SuspendLayout();
             // 
@@ -204,6 +205,7 @@
             this.btnPesquisar.TabIndex = 16;
             this.btnPesquisar.Text = "Pesquisar";
             this.btnPesquisar.UseVisualStyleBackColor = true;
+            this.btnPesquisar.Click += new System.EventHandler(this.btnPesquisar_Click);
             // 
             // dgvPessoas
             // 
@@ -220,12 +222,23 @@
             this.dgvPessoas.TabIndex = 17;
             this.dgvPessoas.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPessoas_CellClick);
             // 
+            // btnExportar
+            // 
+            this.btnExportar.Location = new System.Drawing.Point(392, 132);
+            this.btnExportar.Name = "btnExportar";
+            this.btnExportar.Size = new System.Drawing.Size(96, 30);
+            this.btnExportar.TabIndex = 18;
+            this.btnExportar.Text = "Exportar CSV";
+            this.btnExportar.UseVisualStyleBackColor = true;
+            this.btnExportar.Click += new System.EventHandler(this.btnExportar_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1104, 530);
+            this.Controls.Add(this.btnExportar);
             this.Controls.Add(this.dgvPessoas);
             this.Controls.Add(this.btnPesquisar);
             this.Controls.Add(this.tbPesquisar);
@@ -271,6 +284,7 @@
         private System.Windows.Forms.TextBox tbPesquisar;
         private System.Windows.Forms.Button btnPesquisar;
         private System.Windows.Forms.DataGridView dgvPessoas;
+        private System.Windows.Forms.Button btnExportar;
     }
 }
 

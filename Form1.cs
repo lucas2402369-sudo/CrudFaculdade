@@ -2,7 +2,8 @@
 using CrudTesteDev.Entities;
 using System;
 using System.Windows.Forms;
-
+using System.IO;
+using System.Text;
 namespace CrudTesteDev
 {
     public partial class Form1 : Form
@@ -334,6 +335,88 @@ namespace CrudTesteDev
                 MessageBox.Show("Erro ao pesquisar: " + ex.Message);
             }
 
+        }
+
+        private void btnExportar_Click(object sender, EventArgs e)
+        {
+            if (dgvPessoas.Rows.Count == 0)
+            {
+                MessageBox.Show("Não existem cadastros para exportar.");
+                return;
+            }
+
+            using (SaveFileDialog salvar = new SaveFileDialog())
+            {
+                salvar.Title = "Exportar Cadastros";
+                salvar.Filter = "Arquivo CSV (*.csv)|*.csv";
+                salvar.FileName = "Cadastros_Pessoas.csv";
+                salvar.DefaultExt = "csv";
+                salvar.OverwritePrompt = true;
+
+                if (salvar.ShowDialog() != DialogResult.OK)
+                {
+                    return;
+                }
+
+                try
+                {
+                    using (StreamWriter arquivo = new StreamWriter(
+                        salvar.FileName, false, new UTF8Encoding(true)))
+                    {
+                        arquivo.WriteLine("Codigo;Nome;Sexo;TipoPessoa");
+
+                        foreach (DataGridViewRow linha in dgvPessoas.Rows)
+                        {
+                            Pessoa pessoa = linha.DataBoundItem as Pessoa;
+
+                            if (pessoa == null)
+                            {
+                                continue;
+                            }
+
+                            string nome = pessoa.Nome ?? "";
+                            string sexo = pessoa.Sexo ?? "";
+                            string tipo = pessoa.TipoPessoa ?? "";
+
+                            // Protege contra fórmulas no Excel
+                            if (nome.TrimStart().StartsWith("=") ||
+                                nome.TrimStart().StartsWith("+") ||
+                                nome.TrimStart().StartsWith("-") ||
+                                nome.TrimStart().StartsWith("@"))
+                            {
+                                nome = "'" + nome;
+                            }
+
+                            // Trata aspas presentes nos dados
+                            nome = nome.Replace("\"", "\"\"");
+                            sexo = sexo.Replace("\"", "\"\"");
+                            tipo = tipo.Replace("\"", "\"\"");
+
+                            arquivo.WriteLine(
+                                pessoa.Codigo + ";\"" +
+                                nome + "\";\"" +
+                                sexo + "\";\"" +
+                                tipo + "\"");
+                        }
+                    }
+
+                    MessageBox.Show(
+                        "Cadastros exportados com sucesso!",
+                        "Exportação concluída",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        "Erro ao exportar os cadastros:\n" + ex.Message,
+                        "Erro",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                }
+            }
         }
     }
 }
